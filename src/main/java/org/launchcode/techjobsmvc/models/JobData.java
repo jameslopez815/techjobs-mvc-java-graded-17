@@ -55,32 +55,33 @@ public class JobData {
     public static ArrayList<Job> findByColumnAndValue(String column, String value) {
 
         // load data, if not already loaded
-        loadData();
+        loadData(); // * Ensures the job data is available for processing. If already loaded, nothing will occur.
 
-        ArrayList<Job> jobs = new ArrayList<>();
+        ArrayList<Job> jobs = new ArrayList<>(); // * Initialize an empty list, storing jobs that match the search criteria.
 
-        if (value.toLowerCase().equals("all")){
+
+        if (value.toLowerCase().equals("all")){ // * Input "all" as the value, it will return all job entries without further filtering.
             return findAll();
         }
 
-        if (column.equals("all")){
+        if (column.equals("all")){ // * If the column specified is "all", it will retrieve jobs that match the given value across all columns.
             jobs = findByValue(value);
             return jobs;
         }
-        for (Job job : allJobs) {
+        for (Job job : allJobs) { // * Loops through each job in the list. If it does.
 
-            String aValue = getFieldValue(job, column);
+            String aValue = getFieldValue(job, column); // * Retrieves the value for the specified column,
 
-            if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
-                jobs.add(job);
+            if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) { // * Checks if column contains the search value (case-insensitive)
+                jobs.add(job); //* The job is added to the results list.
             }
         }
 
-        return jobs;
+        return jobs; // * Returns the list of jobs that matched the criteria.
     }
 
-    public static String getFieldValue(Job job, String fieldName){
-        String theValue;
+    public static String getFieldValue(Job job, String fieldName){ //* public static, meaning it can be accessed from anywhere in the program without needing an instance of the class.
+        String theValue; //* Takes a Job object and a String representing the field name.
         if (fieldName.equals("name")){
             theValue = job.getName();
         } else if (fieldName.equals("employer")){
@@ -88,12 +89,12 @@ public class JobData {
         } else if (fieldName.equals("location")){
             theValue = job.getLocation().toString();
         } else if (fieldName.equals("positionType")){
-            theValue = job.getPositionType().toString();
+            theValue = job.getPositionType().toString(); // * if-else statements to check the value of fieldName, retrieving respective values.
         } else {
-            theValue = job.getCoreCompetency().toString();
+            theValue = job.getCoreCompetency().toString(); // * If no match, it returns the core competency of the job.
         }
 
-        return theValue;
+        return theValue; // * Returns the value of the specified field as a String.
     }
     /**
      * Search all Job fields for the given term.
@@ -106,7 +107,7 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        ArrayList<Job> jobs = new ArrayList<>();
+        ArrayList<Job> jobs = new ArrayList<>(); // * Create a list to hold matching jobs
 
         for (Job job : allJobs) {
 
@@ -120,11 +121,11 @@ public class JobData {
                 jobs.add(job);
             } else if (job.getCoreCompetency().toString().toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(job);
-            }
+            } // * Check each job's attributes to see if they contain the search term. If a match, the job is added to the jobs list. Case insensitivity.
 
         }
 
-        return jobs;
+        return jobs; // * Return the list of matching jobs
     }
 
     private static Object findExistingObject(ArrayList list, String value){
